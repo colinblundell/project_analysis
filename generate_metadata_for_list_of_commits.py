@@ -3,6 +3,7 @@ import subprocess
 import json
 import os
 import pprint
+import re
 import sys
 
 authors = {}
@@ -19,7 +20,7 @@ for commit in commits:
   commit = commit[:-1]
   author = subprocess.check_output(["git", "show", "-s", "--format=\"%ae\"", commit],
                             cwd="/usr/local/google/home/blundell/clankium/src")
-  author = author[:-1]
+  author = author[1:-2]
 
   if author not in authors:
     authors[author] = 0
@@ -34,9 +35,11 @@ for commit in commits:
     # TODO: Generate total unique files changed.
     if "Reviewed-by" in line:
       cl_reviewed = True
-      if line not in reviewers:
-        reviewers[line] = 0
-      reviewers[line] += 1
+      email_matcher = re.search(r"[\w\.-]+@[\w\.-]+\.\w+", line)
+      email = email_matcher.group(0)
+      if email not in reviewers:
+        reviewers[email] = 0
+      reviewers[email] += 1
     if len(line) and line[0].isdigit():
       files_changed.append(line)
   if cl_reviewed:
