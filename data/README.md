@@ -9,7 +9,16 @@
   parent directory of this one:
   ./generate_commits_for_buglist.sh path/to/chromium data/identity_service_component_buglist.txt > data/identity_service_component_commits.txt
 
+- identity_service_components_commit_metadata.txt: Metadata about the set of
+  commits in JSON format. Generated as follows in the parent directory of this
+  one:
+  /generate_metadata_for_list_of_commits.py path/to/chromium data/identity_service_component_commits.txt > data/identity_service_component_commits_metadata.txt
+
+- To analyze the commit metadata, run the following in the parent directory of
+  this one:
+  ./analyze_metadata_for_list_of_commits.py data/identity_service_component_commits_metadata.txt
+  
 The buglist was last generated on August 1, 2019.
 
-The set of commits was last generated as of Chromium rev 6c90100 (August 1,
-2019).
+The set of commits and metadata for those commits were last generated as of
+Chromium rev 6c90100 (August 1, 2019).
