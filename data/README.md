@@ -7,7 +7,7 @@
 - identity_service_component_commits.txt: A list of all the commits that
   reference one or more of the bugs in the buglist. Generated as follows in the
   parent directory of this one:
-  ./generate_identity_component_bug_commits.sh path/to/chromium data/identity_service_component_buglist.txt > data/identity_service_component_commits.txt
+  ./generate_commits_for_buglist.sh path/to/chromium data/identity_service_component_buglist.txt > data/identity_service_component_commits.txt
 
 The buglist was last generated on August 1, 2019.
 
