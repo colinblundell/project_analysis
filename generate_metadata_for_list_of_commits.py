@@ -6,12 +6,18 @@ import pprint
 import re
 import sys
 
+if len(sys.argv) != 3:
+  print "Need to pass two args: path to Chromium checkout and path to list of commits (one commit per line)"
+  sys.exit(1)
+
+path_to_chromium_checkout = sys.argv[1]
+commits_file = sys.argv[2]
+
 authors = {}
 reviewers = {}
 unique_changed_files = set()
 
-# TODO: Pass via arg
-commits = open("test_commits.txt")
+commits = open(commits_file)
 num_cls_without_reviewer_info = 0
 total_lines_inserted = 0
 total_lines_deleted = 0
@@ -22,7 +28,7 @@ for commit in commits:
   # Find the author.
   author = subprocess.check_output(
       ["git", "show", "-s", "--format=\"%ae\"", commit],
-      cwd="/usr/local/google/home/blundell/clankium/src")
+      cwd=path_to_chromium_checkout)
 
   # Strip off the surrounding quotes and newline from the email address.
   author = author[1:-2]
@@ -32,7 +38,7 @@ for commit in commits:
 
   # Find the reviewers and the information about the files changed.
   commit_msg = subprocess.check_output(["git", "show", "--numstat", commit],
-                            cwd="/usr/local/google/home/blundell/clankium/src")
+                            cwd=path_to_chromium_checkout)
   cl_reviewed = False
   for line in commit_msg.splitlines():
     if "Reviewed-by" in line:
