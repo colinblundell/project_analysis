@@ -41,6 +41,13 @@ for commit in commits:
         reviewers[email] = 0
       reviewers[email] += 1
     if len(line) and line[0].isdigit():
+      file_change_matcher = re.search(r"([0-9])*\t([0-9]*\)\t(.*)", line)
+      lines_inserted = file_change_matcher.group(1)
+      lines_deleted = file_change_matcher.group(2)
+      file_changed = file_change_matcher.group(3)
+      print lines_inserted
+      print lines_deleted
+      print file_changed
       files_changed.append(line)
   if cl_reviewed:
     num_cls_with_reviews += 1
