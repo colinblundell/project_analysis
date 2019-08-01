@@ -42,7 +42,16 @@ print_metadata_about_involved_parties(metadata["reviewers"], "reviews", "reviewe
 reviewers = metadata["reviewers"]
 
 unique_changed_files = metadata["unique_changed_files"]
+files_changed_in_place = 0
+files_moved = 0
+for f in unique_changed_files:
+  if "=>" in f:
+    files_moved += 1
+  else:
+    files_changed_in_place += 1
+
 print
-print "# of unique files changed:", len(unique_changed_files)
 print "# of LOC inserted: ", metadata["total_lines_inserted"]
 print "# of LOC deleted: ", metadata["total_lines_deleted"]
+print "# of unique files modified:", files_changed_in_place
+print "# of file moves:", files_moved
