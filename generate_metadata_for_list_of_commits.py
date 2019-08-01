@@ -55,7 +55,7 @@ for commit in commits:
       # This is a line describing a changed file in the format
       # <num_insertions>\t<num_deletions>\t<filepath>.
       # Extract this information.
-      file_change_matcher = re.search(r"([0-9])*\t([0-9]*)\t(.*)", line)
+      file_change_matcher = re.search(r"([0-9]*)\t([0-9]*)\t(.*)", line)
       lines_inserted = file_change_matcher.group(1)
       lines_deleted = file_change_matcher.group(2)
       changed_file = file_change_matcher.group(3)

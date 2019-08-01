@@ -15,6 +15,19 @@ def top_n_from_dict_by_value(d, n):
   elements_to_return = sorted_d[:n]
   return elements_to_return
 
+def print_metadata_about_involved_parties(input_data, element_name, involved_parties_name, involved_parties_action):
+  print
+  total_num_values = sum([int(v) for v in input_data.values()])
+  print "Number of " + element_name + ": ", total_num_values
+
+  print "Unique " + involved_parties_name + ": ", len(input_data.keys())
+
+  top_10 = top_n_from_dict_by_value(input_data, 10)
+  print
+  print "Top 10 " + involved_parties_name + ":"
+  for involved_party, num in top_10:
+    print str(involved_party) + ": " + str(num) + " CLs " + involved_parties_action
+
 if len(sys.argv) != 2:
   print "Need to pass one arg: path to file with metadata in JSON representation"
   sys.exit(1)
@@ -23,19 +36,13 @@ metadata_file = sys.argv[1]
 with open(metadata_file, 'r') as f:
   metadata = json.load(f)
 
-authors = metadata["authors"]
-num_cls = sum([int(v) for v in authors.values()])
-print "Number of CLs: ", num_cls
-
-print "Unique authors:", len(authors.keys())
-
-top_10_authors = top_n_from_dict_by_value(authors, 10)
-print "Top 10 authors:"
-for author, num_cls in top_10_authors:
-  print str(author) + ": " + str(num_cls) + " CLs"
+print_metadata_about_involved_parties(metadata["authors"], "CLs", "authors", "authored")
+print_metadata_about_involved_parties(metadata["reviewers"], "reviews", "reviewers", "reviewed")
 
 reviewers = metadata["reviewers"]
 
 unique_changed_files = metadata["unique_changed_files"]
-
-
+print
+print "# of unique files changed:", len(unique_changed_files)
+print "# of LOC inserted: ", metadata["total_lines_inserted"]
+print "# of LOC deleted: ", metadata["total_lines_deleted"]
