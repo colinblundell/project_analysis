@@ -39,33 +39,8 @@ with open(metadata_file, 'r') as f:
 print_metadata_about_involved_parties(metadata["authors"], "CLs", "authors", "authored")
 print_metadata_about_involved_parties(metadata["reviewers"], "reviews", "reviewers", "reviewed")
 
-reviewers = metadata["reviewers"]
-
-unique_changed_files = metadata["unique_changed_files"]
-total_files_changed = 0
-files_moved = 0
-for f in unique_changed_files:
-  if "=>" in f:
-    files_moved += 1
-    if "{" in f:
-      move_matcher = re.search(r"(.*){(.*) => (.*)}(.*)", f)
-      common_prefix = move_matcher.group(1)
-      common_suffix = move_matcher.group(4)
-      before_move_path = common_prefix + move_matcher.group(2) + common_suffix
-      after_move_path = common_prefix + move_matcher.group(3) + common_suffix
-    else:
-      move_matcher = re.search(r"(.*) => (.*)", f)
-      before_move_path = move_matcher.group(1)
-      after_move_path = move_matcher.group(2)
-    if before_move_path not in unique_changed_files:
-      total_files_changed += 1
-    if after_move_path not in unique_changed_files:
-      total_files_changed += 1
-  else:
-    total_files_changed += 1
-
 print
 print "# of LOC inserted: ", metadata["total_lines_inserted"]
 print "# of LOC deleted: ", metadata["total_lines_deleted"]
-print "# of unique files modified:", total_files_changed
-print "# of file moves:", files_moved
+print "# of unique files impacted:", len(metadata["unique_changed_files"])
+print "# of file moves:", metadata["file_moves"]
