@@ -18,7 +18,7 @@
   this one:
   ./analyze_metadata_for_list_of_commits.py data/identity_service_component_commits_metadata.txt
   
-The buglist was last generated on August 1, 2019.
+The buglist was last generated on September 27, 2019.
 
 The set of commits and metadata for those commits were last generated as of
-Chromium rev 6c90100 (August 1, 2019).
+Chromium rev ae812cd8 (September 27, 2019).
